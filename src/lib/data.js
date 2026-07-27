@@ -88,6 +88,9 @@ export const products = [
       { id: "var_03_jar_sm", label: "Jar · 1g", price: 599, packaging: "jar" },
       { id: "var_03_jar_md", label: "Jar · 2g", price: 1099, packaging: "jar" },
       { id: "var_03_jar_lg", label: "Jar · 5g", price: 2499, packaging: "jar" },
+      { id: "var_03_pouch_sm", label: "Pouch · 1g", price: 499, packaging: "pouch" },
+      { id: "var_03_pouch_md", label: "Pouch · 2g", price: 899, packaging: "pouch" },
+      { id: "var_03_pouch_lg", label: "Pouch · 5g", price: 1999, packaging: "pouch" },
     ],
     origin: "Pampore, Kashmir",
     usage:
