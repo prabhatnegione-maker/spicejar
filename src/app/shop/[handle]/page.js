@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect } from "react";
 import { useParams } from "next/navigation";
 import Link from "next/link";
 import { getProduct, getRelatedProducts, getVariantsByPackaging, formatPrice } from "@/lib/data";
@@ -15,6 +15,7 @@ export default function ProductDetailPage() {
 
   const hasPouch = product?.images?.pouch != null;
   const [activePack, setActivePack] = useState("jar");
+  const [imgError, setImgError] = useState(false);
 
   const packVariants = useMemo(() => {
     if (!product) return [];
@@ -64,6 +65,10 @@ export default function ProductDetailPage() {
       ? product.images.pouch
       : product.images?.jar || product.image;
 
+  useEffect(() => {
+    setImgError(false);
+  }, [currentImage]);
+
   const accordionItems = [
     { key: "origin", label: "Origin", content: product.origin },
     { key: "usage", label: "How to Use", content: product.usage },
@@ -85,15 +90,15 @@ export default function ProductDetailPage() {
         {/* Product Grid */}
         <div className="product-detail-grid">
           {/* Image */}
-          <div className="product-detail-image fade-in">
+          <div 
+            className={`product-detail-image fade-in ${imgError ? "product-card-placeholder" : ""}`}
+            data-name={imgError ? product.name : undefined}
+          >
             <img 
               src={currentImage} 
               alt={`${product.name} — ${product.subtitle}`} 
-              onError={(e) => {
-                e.target.style.display = "none";
-                e.target.parentElement.classList.add("product-card-placeholder");
-                e.target.parentElement.setAttribute("data-name", product.name);
-              }}
+              style={{ display: imgError ? "none" : "block" }}
+              onError={() => setImgError(true)}
             />
             {/* Badges */}
             <div className="pdp-badges">

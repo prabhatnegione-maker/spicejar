@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { formatPrice, getVariantsByPackaging } from "@/lib/data";
 import { useCart } from "@/lib/cart-context";
 
@@ -9,11 +9,16 @@ export default function ProductCard({ product, index = 0 }) {
   const { addItem } = useCart();
   const hasPouch = product.images?.pouch != null;
   const [activePack, setActivePack] = useState("jar");
+  const [imgError, setImgError] = useState(false);
 
   const currentImage =
     activePack === "pouch" && product.images?.pouch
       ? product.images.pouch
       : product.images?.jar || product.image;
+
+  useEffect(() => {
+    setImgError(false);
+  }, [currentImage]);
 
   const variants = getVariantsByPackaging(product, activePack);
   const displayPrice = variants.length > 0 ? variants[Math.floor(variants.length / 2)]?.price : product.price;
@@ -34,16 +39,16 @@ export default function ProductCard({ product, index = 0 }) {
         href={`/shop/${product.handle}`}
         style={{ textDecoration: "none", color: "inherit" }}
       >
-        <div className="product-card-image">
+        <div 
+          className={`product-card-image ${imgError ? "product-card-placeholder" : ""}`}
+          data-name={imgError ? product.name : undefined}
+        >
           <img
             src={currentImage}
             alt={`${product.name} — ${product.subtitle}`}
             loading="lazy"
-            onError={(e) => {
-              e.target.style.display = "none";
-              e.target.parentElement.classList.add("product-card-placeholder");
-              e.target.parentElement.setAttribute("data-name", product.name);
-            }}
+            style={{ display: imgError ? "none" : "block" }}
+            onError={() => setImgError(true)}
           />
 
           {/* Badges */}
