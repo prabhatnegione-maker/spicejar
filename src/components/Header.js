@@ -4,6 +4,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
 import { useCart } from "@/lib/cart-context";
+import SearchModal from "./SearchModal";
 
 const navLinks = [
   { href: "/", label: "Home" },
@@ -16,6 +17,7 @@ export default function Header() {
   const pathname = usePathname();
   const { totalItems, openDrawer, mounted } = useCart();
   const [mobileOpen, setMobileOpen] = useState(false);
+  const [searchOpen, setSearchOpen] = useState(false);
 
   return (
     <header className="header">
@@ -47,6 +49,31 @@ export default function Header() {
         </nav>
 
         <div className="header-actions">
+          {/* Search Button */}
+          <button
+            className="action-button"
+            onClick={() => setSearchOpen(true)}
+            aria-label="Open search"
+          >
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+              <circle cx="11" cy="11" r="8"></circle>
+              <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+            </svg>
+          </button>
+
+          {/* User Profile */}
+          <Link
+            href="/login"
+            className="action-button"
+            aria-label="User account"
+          >
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+              <path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"></path>
+              <circle cx="12" cy="7" r="4"></circle>
+            </svg>
+          </Link>
+
+          {/* Cart Toggle */}
           <button
             className="cart-button"
             onClick={openDrawer}
@@ -84,6 +111,8 @@ export default function Header() {
           </button>
         </div>
       </div>
+
+      <SearchModal isOpen={searchOpen} onClose={() => setSearchOpen(false)} />
     </header>
   );
 }
