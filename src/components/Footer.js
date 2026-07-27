@@ -11,7 +11,7 @@ export default function Footer() {
             <img
               src="/images/logo.png"
               alt="spicejar — Premium Indian Spices"
-              style={{ height: 36, width: "auto", display: "block" }}
+              style={{ height: 60, width: "auto", maxWidth: "250px", objectFit: "contain", display: "block", mixBlendMode: "darken" }}
               onError={(e) => {
                 e.target.style.display = "none";
                 e.target.nextElementSibling.style.display = "inline";
