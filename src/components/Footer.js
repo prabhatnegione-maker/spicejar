@@ -54,7 +54,7 @@ export default function Footer() {
             Get recipes, spice tips, and early access to new arrivals.
           </p>
           <form
-            className="footer-newsletter-form"
+            className="footer-join-form"
             onSubmit={(e) => e.preventDefault()}
           >
             <input
@@ -62,9 +62,9 @@ export default function Footer() {
               className="input"
               placeholder="your@email.com"
               aria-label="Email for newsletter"
-              id="footer-newsletter-email"
+              id="footer-join-email"
             />
-            <button type="submit" className="btn btn-primary btn-sm" id="footer-newsletter-submit">
+            <button type="submit" className="btn btn-primary btn-sm" id="footer-join-submit">
               Join
             </button>
           </form>

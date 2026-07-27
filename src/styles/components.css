@@ -212,18 +212,18 @@
   margin-bottom: var(--space-md);
 }
 
-.footer-newsletter-form {
+.footer-join-form {
   display: flex;
   gap: var(--space-sm);
 }
 
-.footer-newsletter-form .input {
+.footer-join-form .input {
   flex: 1;
   padding: 12px 14px;
   font-size: var(--font-size-sm);
 }
 
-.footer-newsletter-form .btn {
+.footer-join-form .btn {
   padding: 12px 20px;
 }
 
@@ -1075,19 +1075,19 @@
   margin-bottom: var(--space-xl);
 }
 
-.newsletter-form {
+.join-family-form {
   display: flex;
   gap: var(--space-sm);
   max-width: 400px;
   margin: 0 auto;
 }
 
-.newsletter-form .input {
+.join-family-form .input {
   background-color: var(--color-bg);
 }
 
 @media (max-width: 480px) {
-  .newsletter-form {
+  .join-family-form {
     flex-direction: column;
   }
 }

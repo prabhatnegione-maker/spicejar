@@ -417,7 +417,7 @@ export default function HomePage() {
             Recipes, spice tips, and early access to new arrivals — delivered to your inbox.
           </p>
           <form
-            className="newsletter-form"
+            className="join-family-form"
             onSubmit={(e) => e.preventDefault()}
           >
             <input
@@ -425,9 +425,9 @@ export default function HomePage() {
               className="input"
               placeholder="your@email.com"
               aria-label="Email for newsletter"
-              id="newsletter-email"
+              id="join-family-email"
             />
-            <button type="submit" className="btn btn-primary" id="newsletter-submit">
+            <button type="submit" className="btn btn-primary" id="join-family-submit">
               Subscribe
             </button>
           </form>
