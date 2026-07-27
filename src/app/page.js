@@ -63,32 +63,32 @@ export default function HomePage() {
           {/* Right: Product showcase */}
           <div className="hero-showcase fade-in-up fade-in-up-delay-2">
             <div className="hero-product-grid">
-              <div className="hero-product-card hero-product-featured">
+              <Link href="/shop/kesar-dhaga" className="hero-product-card hero-product-featured">
                 <img src="/images/products/kesar-dhaga.png" alt="Kesar Dhaga — Pure Kashmiri Saffron" />
                 <div className="hero-product-label">
                   <span className="hero-product-tag">Premium</span>
                   <span className="hero-product-name">Kesar Dhaga</span>
                 </div>
-              </div>
-              <div className="hero-product-card hero-product-sm-1">
+              </Link>
+              <Link href="/shop/haldi-gold" className="hero-product-card hero-product-sm-1">
                 <img src="/images/products/haldi-gold.png" alt="Haldi Gold — Lakadong Turmeric" />
                 <div className="hero-product-label">
                   <span className="hero-product-name">Haldi Gold</span>
                 </div>
-              </div>
-              <div className="hero-product-card hero-product-sm-2">
+              </Link>
+              <Link href="/shop/laal-ras" className="hero-product-card hero-product-sm-2">
                 <img src="/images/products/laal-ras.png" alt="Laal Ras — Kashmiri Red Chilli" />
                 <div className="hero-product-label">
                   <span className="hero-product-tag">Bestseller</span>
                   <span className="hero-product-name">Laal Ras</span>
                 </div>
-              </div>
-              <div className="hero-product-card hero-product-sm-3">
+              </Link>
+              <Link href="/shop/elaichi" className="hero-product-card hero-product-sm-3">
                 <img src="/images/products/elaichi.png" alt="Elaichi — Kerala Green Cardamom" />
                 <div className="hero-product-label">
                   <span className="hero-product-name">Elaichi</span>
                 </div>
-              </div>
+              </Link>
             </div>
             <div className="hero-offer-badge">
               <span className="hero-offer-text">New Arrivals</span>
