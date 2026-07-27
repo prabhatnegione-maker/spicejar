@@ -24,7 +24,7 @@ export default function Header() {
           <img
             src="/images/logo.png"
             alt="spicejar — Premium Indian Spices"
-            style={{ height: 80, width: "auto", maxWidth: "250px", objectFit: "contain", display: "block" }}
+            style={{ height: 60, width: "auto", maxWidth: "250px", objectFit: "contain", display: "block", mixBlendMode: "darken" }}
             onError={(e) => {
               e.target.style.display = "none";
               e.target.nextElementSibling.style.display = "inline";
