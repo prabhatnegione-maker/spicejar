@@ -1,9 +1,6 @@
-import Link from "next/link";
+"use client";
 
-export const metadata = {
-  title: "Ayurveda & The Gut-Skin Connection — spicejar",
-  description: "Discover the Vedic wisdom of balancing your digestive fire (Agni) with traditional herbs and spices for radiant skin and holistic vitality.",
-};
+import Link from "next/link";
 
 const ayurvedicHerbs = [
   {
