@@ -1,7 +1,9 @@
 "use client";
 
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useMemo } from "react";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
+import { performSearch } from "@/lib/search";
 
 export default function SearchModal({ isOpen, onClose }) {
   const [query, setQuery] = useState("");
@@ -9,10 +11,14 @@ export default function SearchModal({ isOpen, onClose }) {
   const router = useRouter();
 
   useEffect(() => {
-    if (isOpen && inputRef.current) {
-      setTimeout(() => inputRef.current.focus(), 100);
+    if (isOpen) {
+      if (inputRef.current) setTimeout(() => inputRef.current.focus(), 100);
+    } else {
+      setQuery("");
     }
   }, [isOpen]);
+
+  const searchResults = useMemo(() => performSearch(query), [query]);
 
   if (!isOpen) return null;
 
@@ -68,6 +74,42 @@ export default function SearchModal({ isOpen, onClose }) {
             </svg>
           </button>
         </form>
+
+        {query.trim() !== "" && (
+          <div className="search-results">
+            {searchResults.length > 0 ? (
+              <ul className="search-results-list">
+                {searchResults.slice(0, 5).map((product) => (
+                  <li key={product.id} className="search-result-item">
+                    <Link
+                      href={`/shop/${product.handle}`}
+                      onClick={onClose}
+                      className="search-result-link"
+                    >
+                      <div className="search-result-image">
+                        <img src={product.image} alt={product.name} style={{ mixBlendMode: "darken" }} />
+                      </div>
+                      <div className="search-result-details">
+                        <span className="search-result-name">{product.name}</span>
+                        <span className="search-result-subtitle">{product.subtitle}</span>
+                      </div>
+                      <div className="search-result-price">
+                        ₹{product.price}
+                      </div>
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            ) : (
+              <div className="search-results-empty">
+                <p>No products found for "{query}".</p>
+                <Link href="/shop" onClick={onClose} className="btn btn-primary btn-sm" style={{ marginTop: "1rem" }}>
+                  Browse Shop
+                </Link>
+              </div>
+            )}
+          </div>
+        )}
       </div>
     </div>
   );

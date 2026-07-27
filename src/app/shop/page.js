@@ -1,16 +1,21 @@
 "use client";
 
-import { useState, useMemo } from "react";
+import { useState, useMemo, Suspense } from "react";
+import { useSearchParams } from "next/navigation";
 import Link from "next/link";
 import ProductCard from "@/components/ProductCard";
 import { products, categories } from "@/lib/data";
+import { performSearch } from "@/lib/search";
 
-export default function ShopPage() {
+function ShopContent() {
+  const searchParams = useSearchParams();
+  const query = searchParams.get("q") || "";
+
   const [activeCategory, setActiveCategory] = useState("all");
   const [sortBy, setSortBy] = useState("default");
 
   const filteredProducts = useMemo(() => {
-    let filtered = [...products];
+    let filtered = query ? performSearch(query) : [...products];
 
     if (activeCategory !== "all") {
       filtered = filtered.filter(
@@ -33,7 +38,7 @@ export default function ShopPage() {
     }
 
     return filtered;
-  }, [activeCategory, sortBy]);
+  }, [activeCategory, sortBy, query]);
 
   return (
     <div style={{ paddingTop: "var(--space-xl)", paddingBottom: "var(--space-3xl)" }}>
@@ -134,5 +139,13 @@ export default function ShopPage() {
         </div>
       </div>
     </div>
+  );
+}
+
+export default function ShopPage() {
+  return (
+    <Suspense fallback={<div style={{ padding: "4rem", textAlign: "center" }}>Loading...</div>}>
+      <ShopContent />
+    </Suspense>
   );
 }
