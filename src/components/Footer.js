@@ -1,10 +1,16 @@
 "use client";
 
+import { useState } from "react";
 import Link from "next/link";
+import NotificationToast from "@/components/NotificationToast";
 
 export default function Footer() {
+  const [toast, setToast] = useState({ message: "", type: "success" });
+  const [footerStatus, setFooterStatus] = useState({ loading: false, success: false, message: "" });
+  
   return (
     <footer className="footer">
+      <NotificationToast message={toast.message} type={toast.type} onClose={() => setToast({ ...toast, message: "" })} />
       <div className="footer-grid">
         <div>
           <Link href="/" className="header-brand" style={{ display: "inline-block" }}>
@@ -75,7 +81,7 @@ export default function Footer() {
                       success: true,
                       message: msg,
                     });
-                    alert(msg);
+                    setToast({ message: msg, type: "success" });
                   } else {
                     const errMsg = data.error || "Failed to join.";
                     setFooterStatus({
@@ -83,7 +89,7 @@ export default function Footer() {
                       success: false,
                       message: errMsg,
                     });
-                    alert(errMsg);
+                    setToast({ message: errMsg, type: "error" });
                   }
                 } catch (err) {
                   setFooterStatus({
@@ -91,6 +97,7 @@ export default function Footer() {
                     success: false,
                     message: "Connection error.",
                   });
+                  setToast({ message: "Connection error.", type: "error" });
                 }
               }}
           >

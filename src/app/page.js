@@ -1,12 +1,16 @@
 "use client";
 
+import { useState } from "react";
 import Link from "next/link";
 import ProductCarousel from "@/components/ProductCarousel";
+import NotificationToast from "@/components/NotificationToast";
 import { products, getProductsByTag, uspItems, testimonials, formatPrice } from "@/lib/data";
 
 export default function HomePage() {
   const newArrivals = getProductsByTag("new");
   const bestsellers = getProductsByTag("bestseller");
+  const [toast, setToast] = useState({ message: "", type: "success" });
+  const [newsletterState, setNewsletterState] = useState({ loading: false, success: false, message: "" });
 
   return (
     <>
@@ -438,7 +442,7 @@ export default function HomePage() {
                     success: true,
                     message: msg,
                   });
-                  alert(msg);
+                  setToast({ message: msg, type: "success" });
                 } else {
                   const errMsg = data.error || "Subscription failed. Please try again.";
                   setNewsletterState({
@@ -446,7 +450,7 @@ export default function HomePage() {
                     success: false,
                     message: errMsg,
                   });
-                  alert(errMsg);
+                  setToast({ message: errMsg, type: "error" });
                 }
               } catch (err) {
                 setNewsletterState({
@@ -454,6 +458,7 @@ export default function HomePage() {
                   success: false,
                   message: "Connection error. Please try again.",
                 });
+                setToast({ message: "Connection error. Please try again.", type: "error" });
               }
             }}
           >
@@ -471,6 +476,12 @@ export default function HomePage() {
           </form>
         </div>
       </section>
+
+      <NotificationToast
+        message={toast.message}
+        type={toast.type}
+        onClose={() => setToast({ message: "", type: "success" })}
+      />
     </>
   );
 }
