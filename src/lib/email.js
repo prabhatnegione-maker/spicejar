@@ -4,7 +4,7 @@ const resendApiKey = process.env.RESEND_API_KEY || "re_dummy_build_key";
 
 export const resend = new Resend(resendApiKey);
 
-export function getWelcomeEmailHtml() {
+export function getWelcomeEmailHtml(concept = "concept1") {
   return `
 <!DOCTYPE html>
 <html>
@@ -26,14 +26,12 @@ export function getWelcomeEmailHtml() {
         </td>
       </tr>
 
-      <!-- 2. Hero Visual Section (PacSun & Teavana Inspired Bold Layout) -->
+      <!-- 2. Hero Visual Section — Multi-Product Lineup Studio Image -->
       <tr>
         <td style="padding: 0;">
-          <div style="position: relative; background-color: #2C1810; text-align: center;">
-            <a href="https://spicejarx.vercel.app/shop" style="text-decoration: none; display: block;">
-              <img src="https://spicejarx.vercel.app/images/products/laal-ras-hero.png" alt="Spicejar Premium Spices" width="600" style="width: 100%; height: auto; max-height: 320px; object-fit: cover; display: block;" />
-            </a>
-          </div>
+          <a href="https://spicejarx.vercel.app/shop" style="text-decoration: none; display: block;">
+            <img src="https://spicejarx.vercel.app/images/products/collection-lineup.png" alt="Spicejar Multi-Product Lineup" width="600" style="width: 100%; height: auto; max-height: 380px; object-fit: cover; display: block;" />
+          </a>
         </td>
       </tr>
 
