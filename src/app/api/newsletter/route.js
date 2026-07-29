@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { supabase } from "@/lib/supabase";
+import { sendWelcomeEmail } from "@/lib/email";
 
 export async function POST(request) {
   try {
@@ -35,17 +36,23 @@ export async function POST(request) {
           alreadySubscribed: true,
         });
       }
-      console.warn("Supabase insert notice (run SQL setup if table missing):", error.message);
-      // Fallback response for un-migrated tables
-      return NextResponse.json({
-        success: true,
-        message: "Thank you for subscribing to Spicejar!",
-      });
+      console.warn("Supabase insert notice:", error.message);
+    }
+
+    // Send welcome email via Resend in background
+    let emailSent = false;
+    try {
+      const emailResult = await sendWelcomeEmail(cleanEmail);
+      emailSent = emailResult.success;
+    } catch (emailErr) {
+      console.error("Welcome email dispatch error:", emailErr);
     }
 
     return NextResponse.json({
       success: true,
-      message: "Thank you for subscribing! Check your inbox for updates.",
+      message: emailSent
+        ? "Thank you for subscribing! Check your inbox for your 10% welcome voucher."
+        : "Thank you for subscribing! Check your inbox for updates.",
       data,
     });
   } catch (err) {
