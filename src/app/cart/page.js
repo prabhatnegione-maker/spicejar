@@ -137,12 +137,11 @@ export default function CartPage() {
 
       // 3. Configure Razorpay SDK Options
       const options = {
-        key: process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID,
+        key: orderData.key || process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID,
         amount: orderData.amount,
         currency: orderData.currency,
         name: "Spicejar",
         description: "Farm Fresh Premium Spices Order",
-        image: "/images/logo.png",
         order_id: orderData.id,
         prefill: {
           name: customer.name,
