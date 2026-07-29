@@ -14,7 +14,7 @@ export default function HomePage() {
       <section className="hero">
         {/* Animated gradient background */}
         <div className="hero-gradient" />
-        
+
         {/* Decorative floating spice elements */}
         <div className="hero-spice-float hero-spice-1" aria-hidden="true">🌶️</div>
         <div className="hero-spice-float hero-spice-2" aria-hidden="true">🫘</div>
@@ -35,7 +35,7 @@ export default function HomePage() {
               No Gimmicks!
             </h1>
             <p className="hero-description fade-in-up fade-in-up-delay-2">
-              Hand-sourced from Kashmir's saffron fields to Malabar's pepper vines. 
+              Hand-sourced from Kashmir's saffron fields to Malabar's pepper vines.
               Lab-tested, stone-ground, and packed in sustainable glass jars.
             </p>
             <div className="hero-cta-group fade-in-up fade-in-up-delay-3">
@@ -423,17 +423,38 @@ export default function HomePage() {
               const emailInput = e.target.querySelector("input[type='email']");
               const email = emailInput?.value;
               if (!email) return;
-              const submitBtn = e.target.querySelector("button");
-              if (submitBtn) submitBtn.disabled = true;
-              const res = await fetch("/api/newsletter", {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ email, source: "homepage" }),
-              });
-              const data = await res.json();
-              alert(data.message || "Thank you for subscribing to Spicejar!");
-              if (emailInput) emailInput.value = "";
-              if (submitBtn) submitBtn.disabled = false;
+              setNewsletterState({ loading: true, success: false, message: "" });
+              try {
+                const res = await fetch("/api/newsletter", {
+                  method: "POST",
+                  headers: { "Content-Type": "application/json" },
+                  body: JSON.stringify({ email, source: "homepage" }),
+                });
+                const data = await res.json();
+                if (data.success) {
+                  const msg = data.message || "✓ Thank you for subscribing to Spicejar!";
+                  setNewsletterState({
+                    loading: false,
+                    success: true,
+                    message: msg,
+                  });
+                  alert(msg);
+                } else {
+                  const errMsg = data.error || "Subscription failed. Please try again.";
+                  setNewsletterState({
+                    loading: false,
+                    success: false,
+                    message: errMsg,
+                  });
+                  alert(errMsg);
+                }
+              } catch (err) {
+                setNewsletterState({
+                  loading: false,
+                  success: false,
+                  message: "Connection error. Please try again.",
+                });
+              }
             }}
           >
             <input

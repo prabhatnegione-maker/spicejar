@@ -20,8 +20,8 @@ export default function Footer() {
             <span style={{ display: "none", fontFamily: "'DM Serif Display', serif", fontSize: "1.1rem", fontWeight: 400, color: "var(--color-text-muted)" }}>spicejar</span>
           </Link>
           <p className="footer-brand-description">
-            Bringing the purest Indian spices from farm to your kitchen — 
-            hand-sourced, stone-ground, and packed in sustainable glass jars. 
+            Bringing the purest Indian spices from farm to your kitchen —
+            hand-sourced, stone-ground, and packed in sustainable glass jars.
             Every jar tells a story of origin, tradition, and integrity.
           </p>
         </div>
@@ -55,23 +55,44 @@ export default function Footer() {
           </p>
           <form
             className="footer-join-form"
-            onSubmit={async (e) => {
-              e.preventDefault();
-              const emailInput = e.target.querySelector("input[type='email']");
-              const email = emailInput?.value;
-              if (!email) return;
-              const submitBtn = e.target.querySelector("button");
-              if (submitBtn) submitBtn.disabled = true;
-              const res = await fetch("/api/newsletter", {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ email, source: "footer" }),
-              });
-              const data = await res.json();
-              alert(data.message || "Thank you for joining!");
-              if (emailInput) emailInput.value = "";
-              if (submitBtn) submitBtn.disabled = false;
-            }}
+              onSubmit={async (e) => {
+                e.preventDefault();
+                const emailInput = e.target.querySelector("input[type='email']");
+                const email = emailInput?.value;
+                if (!email) return;
+                setFooterStatus({ loading: true, success: false, message: "" });
+                try {
+                  const res = await fetch("/api/newsletter", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ email, source: "footer" }),
+                  });
+                  const data = await res.json();
+                  if (data.success) {
+                    const msg = data.message || "✓ Thank you for joining!";
+                    setFooterStatus({
+                      loading: false,
+                      success: true,
+                      message: msg,
+                    });
+                    alert(msg);
+                  } else {
+                    const errMsg = data.error || "Failed to join.";
+                    setFooterStatus({
+                      loading: false,
+                      success: false,
+                      message: errMsg,
+                    });
+                    alert(errMsg);
+                  }
+                } catch (err) {
+                  setFooterStatus({
+                    loading: false,
+                    success: false,
+                    message: "Connection error.",
+                  });
+                }
+              }}
           >
             <input
               type="email"
