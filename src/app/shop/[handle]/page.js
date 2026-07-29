@@ -8,8 +8,9 @@ import { useCart } from "@/lib/cart-context";
 import ProductCarousel from "@/components/ProductCarousel";
 
 export default function ProductDetailPage() {
-  const { handle } = useParams();
-  const product = getProduct(handle);
+  const params = useParams();
+  const handle = params?.handle;
+  const product = handle ? getProduct(handle) : null;
   const relatedProducts = getRelatedProducts(handle, 4);
   const { addItem } = useCart();
 
