@@ -15,7 +15,7 @@ export async function POST(request) {
 
     const cleanEmail = email.trim().toLowerCase();
 
-    // Check if table exists / try inserting into Supabase
+    // 1. Try inserting into Supabase database
     const { data, error } = await supabase
       .from("newsletter_subscribers")
       .insert([
@@ -30,33 +30,44 @@ export async function POST(request) {
     if (error) {
       // Handle unique constraint error if already subscribed
       if (error.code === "23505") {
-        return NextResponse.json({
-          success: true,
-          message: "You are already subscribed to the Spicejar newsletter!",
-          alreadySubscribed: true,
-        });
+        console.log(`Newsletter subscriber ${cleanEmail} already exists in database.`);
+      } else {
+        console.warn("Supabase newsletter insert warning:", error.message);
       }
-      console.warn("Supabase insert notice:", error.message);
     }
 
-    // Send welcome email via Resend in background
+    // 2. Dispatch welcome email via Resend
     let emailSent = false;
+    let emailError = null;
+    let emailMessageId = null;
+
     try {
       const emailResult = await sendWelcomeEmail(cleanEmail);
       emailSent = emailResult.success;
+      if (emailResult.success) {
+        emailMessageId = emailResult.data?.id;
+        console.log(`Welcome email successfully queued via Resend for ${cleanEmail} (ID: ${emailMessageId})`);
+      } else {
+        emailError = emailResult.error;
+        console.warn(`Resend email dispatch notice for ${cleanEmail}:`, emailError);
+      }
     } catch (emailErr) {
-      console.error("Welcome email dispatch error:", emailErr);
+      emailError = emailErr.message;
+      console.error("Welcome email unexpected error:", emailErr);
     }
 
     return NextResponse.json({
       success: true,
       message: emailSent
         ? "Thank you for subscribing! Check your inbox for your 10% welcome voucher."
-        : "Thank you for subscribing! Check your inbox for updates.",
+        : "Thank you for subscribing! Subscriber recorded in database.",
+      emailSent,
+      emailMessageId,
+      emailError,
       data,
     });
   } catch (err) {
-    console.error("Error in newsletter API:", err);
+    console.error("Error in newsletter API route:", err);
     return NextResponse.json(
       { success: false, error: "Internal server error" },
       { status: 500 }
