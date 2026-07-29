@@ -16,15 +16,26 @@ export default function ProductDetailPage() {
   const hasPouch = product?.images?.pouch != null;
   const [activePack, setActivePack] = useState("jar");
   const [imgError, setImgError] = useState(false);
+  const [openAccordion, setOpenAccordion] = useState(null);
 
   const packVariants = useMemo(() => {
     if (!product) return [];
     return getVariantsByPackaging(product, activePack);
   }, [product, activePack]);
 
-  const [selectedVariant, setSelectedVariant] = useState(
-    product?.variants[1] || product?.variants[0]
-  );
+  const [selectedVariant, setSelectedVariant] = useState(null);
+
+  // Sync selected variant whenever product handle changes
+  useEffect(() => {
+    if (product?.variants?.length > 0) {
+      const defaultVar = getVariantsByPackaging(product, "jar")[0] || product.variants[0];
+      setSelectedVariant(defaultVar);
+      setActivePack("jar");
+    }
+  }, [handle]);
+
+  const currentVariant = selectedVariant || packVariants[0] || product?.variants?.[0];
+
   // Track product view in database
   useEffect(() => {
     if (product) {
@@ -65,7 +76,9 @@ export default function ProductDetailPage() {
   }
 
   const handleAddToCart = () => {
-    addItem(product, selectedVariant);
+    if (currentVariant) {
+      addItem(product, currentVariant);
+    }
   };
 
   const toggleAccordion = (key) => {
@@ -150,7 +163,7 @@ export default function ProductDetailPage() {
               className="product-detail-price"
               style={{ display: "flex", alignItems: "center", gap: "0.75rem" }}
             >
-              <span>{formatPrice(selectedVariant.price)}</span>
+              <span>{currentVariant ? formatPrice(currentVariant.price) : ""}</span>
               {product.comparePrice && activePack === "jar" && (
                 <span
                   style={{
@@ -206,7 +219,7 @@ export default function ProductDetailPage() {
                 {packVariants.map((variant) => (
                   <button
                     key={variant.id}
-                    className={`variant-option ${selectedVariant.id === variant.id ? "active" : ""}`}
+                    className={`variant-option ${currentVariant?.id === variant.id ? "active" : ""}`}
                     onClick={() => setSelectedVariant(variant)}
                     id={`variant-${variant.id}`}
                   >
@@ -234,7 +247,7 @@ export default function ProductDetailPage() {
                 style={{ flex: 1 }}
                 id="product-add-to-cart"
               >
-                Add to Cart — {formatPrice(selectedVariant.price)}
+                Add to Cart — {currentVariant ? formatPrice(currentVariant.price) : ""}
               </button>
             </div>
 
