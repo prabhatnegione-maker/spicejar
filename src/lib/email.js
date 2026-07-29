@@ -196,7 +196,7 @@ export async function sendWelcomeEmail(toEmail) {
     const { data, error } = await resend.emails.send({
       from: "spicejar <onboarding@resend.dev>",
       to: [toEmail],
-      subject: "Welcome to spicejar — Here is your 10% discount code! 🌿",
+      subject: "✨ Welcome to spicejar — Your 10% Discount Code & Gourmet Collection 🌿",
       html: htmlContent,
     });
 
