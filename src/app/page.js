@@ -63,11 +63,11 @@ export default function HomePage() {
           {/* Right: Product showcase */}
           <div className="hero-showcase fade-in-up fade-in-up-delay-2">
             <div className="hero-product-grid">
-              <Link href="/shop/kesar-dhaga" className="hero-product-card hero-product-featured">
-                <img src="/images/products/kesar-dhaga.png" alt="Kesar Dhaga — Pure Kashmiri Saffron" />
+              <Link href="/shop/laal-ras" className="hero-product-card hero-product-featured">
+                <img src="/images/products/laal-ras.png" alt="Laal Ras — Kashmiri Red Chilli" />
                 <div className="hero-product-label">
-                  <span className="hero-product-tag">Premium</span>
-                  <span className="hero-product-name">Kesar Dhaga</span>
+                  <span className="hero-product-tag">Bestseller</span>
+                  <span className="hero-product-name">Laal Ras</span>
                 </div>
               </Link>
               <Link href="/shop/haldi-gold" className="hero-product-card hero-product-sm-1">
@@ -76,11 +76,11 @@ export default function HomePage() {
                   <span className="hero-product-name">Haldi Gold</span>
                 </div>
               </Link>
-              <Link href="/shop/laal-ras" className="hero-product-card hero-product-sm-2">
-                <img src="/images/products/laal-ras.png" alt="Laal Ras — Kashmiri Red Chilli" />
+              <Link href="/shop/kesar-dhaga" className="hero-product-card hero-product-sm-2">
+                <img src="/images/products/kesar-dhaga.png" alt="Kesar Dhaga — Pure Kashmiri Saffron" />
                 <div className="hero-product-label">
-                  <span className="hero-product-tag">Bestseller</span>
-                  <span className="hero-product-name">Laal Ras</span>
+                  <span className="hero-product-tag">Premium</span>
+                  <span className="hero-product-name">Kesar Dhaga</span>
                 </div>
               </Link>
               <Link href="/shop/elaichi" className="hero-product-card hero-product-sm-3">
