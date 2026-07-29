@@ -64,7 +64,7 @@ export default function HomePage() {
           <div className="hero-showcase fade-in-up fade-in-up-delay-2">
             <div className="hero-product-grid">
               <Link href="/shop/laal-ras" className="hero-product-card hero-product-featured">
-                <img src="/images/products/laal-ras.png" alt="Laal Ras — Kashmiri Red Chilli" />
+                <img src="/images/products/laal-ras-hero.png" alt="Laal Ras — Kashmiri Red Chilli" />
                 <div className="hero-product-label">
                   <span className="hero-product-tag">Bestseller</span>
                   <span className="hero-product-name">Laal Ras</span>
