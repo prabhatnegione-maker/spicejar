@@ -17,7 +17,7 @@ export default function HomePage() {
         
         {/* Decorative floating spice elements */}
         <div className="hero-spice-float hero-spice-1" aria-hidden="true">🌶️</div>
-        <div className="hero-spice-float hero-spice-2" aria-hidden="true">⭐</div>
+        <div className="hero-spice-float hero-spice-2" aria-hidden="true">🫘</div>
         <div className="hero-spice-float hero-spice-3" aria-hidden="true">🫚</div>
         <div className="hero-spice-float hero-spice-4" aria-hidden="true">🌿</div>
         <div className="hero-spice-float hero-spice-5" aria-hidden="true">🧄</div>
