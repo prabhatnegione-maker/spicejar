@@ -57,10 +57,10 @@ export async function sendWelcomeEmail(toEmail) {
                     Enjoy 10% Off Your First Order
                   </h3>
                   <div style="display: inline-block; background-color: #2C1810; color: #F5A623; font-family: monospace; font-size: 18px; padding: 10px 24px; border-radius: 8px; font-weight: bold; letter-spacing: 0.1em; margin: 10px 0;">
-                    WELCOME10
+                    SPICE10
                   </div>
                   <p style="font-size: 13px; color: #88776F; margin: 10px 0 0 0;">
-                    Use code <strong>WELCOME10</strong> at checkout on your first order.
+                    Use code <strong>SPICE10</strong> at checkout on your first order.
                   </p>
                 </div>
 
