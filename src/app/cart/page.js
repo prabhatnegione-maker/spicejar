@@ -167,20 +167,26 @@ export default function CartPage() {
             const verifyData = await verifyRes.json();
 
             if (verifyData.success) {
-              // Save order details for receipt
-              localStorage.setItem(
-                "spicejar_last_order",
-                JSON.stringify({
-                  orderId: response.razorpay_order_id,
-                  paymentId: response.razorpay_payment_id,
-                  customer,
-                  items,
-                  subtotal,
-                  shipping,
-                  total,
-                  date: new Date().toISOString(),
-                })
-              );
+              const orderPayload = {
+                orderId: response.razorpay_order_id,
+                paymentId: response.razorpay_payment_id,
+                customer,
+                items,
+                subtotal,
+                shipping,
+                total,
+                date: new Date().toISOString(),
+              };
+
+              // Persist order to database
+              fetch("/api/orders/save", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(orderPayload),
+              }).catch((err) => console.error("Database order save notice:", err));
+
+              // Save order details for local receipt view
+              localStorage.setItem("spicejar_last_order", JSON.stringify(orderPayload));
 
               clearCart();
               router.push("/order-confirmation");

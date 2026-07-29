@@ -418,7 +418,23 @@ export default function HomePage() {
           </p>
           <form
             className="join-family-form"
-            onSubmit={(e) => e.preventDefault()}
+            onSubmit={async (e) => {
+              e.preventDefault();
+              const emailInput = e.target.querySelector("input[type='email']");
+              const email = emailInput?.value;
+              if (!email) return;
+              const submitBtn = e.target.querySelector("button");
+              if (submitBtn) submitBtn.disabled = true;
+              const res = await fetch("/api/newsletter", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ email, source: "homepage" }),
+              });
+              const data = await res.json();
+              alert(data.message || "Thank you for subscribing to Spicejar!");
+              if (emailInput) emailInput.value = "";
+              if (submitBtn) submitBtn.disabled = false;
+            }}
           >
             <input
               type="email"
@@ -426,6 +442,7 @@ export default function HomePage() {
               placeholder="your@email.com"
               aria-label="Email for newsletter"
               id="join-family-email"
+              required
             />
             <button type="submit" className="btn btn-primary" id="join-family-submit">
               Subscribe

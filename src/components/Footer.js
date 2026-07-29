@@ -43,7 +43,7 @@ export default function Footer() {
             <Link href="/about">Our Story</Link>
             <a href="#">Sourcing</a>
             <a href="#">Sustainability</a>
-            <a href="#">Contact</a>
+            <Link href="/contact">Contact</Link>
             <a href="#">FAQ</a>
           </nav>
         </div>
@@ -55,7 +55,23 @@ export default function Footer() {
           </p>
           <form
             className="footer-join-form"
-            onSubmit={(e) => e.preventDefault()}
+            onSubmit={async (e) => {
+              e.preventDefault();
+              const emailInput = e.target.querySelector("input[type='email']");
+              const email = emailInput?.value;
+              if (!email) return;
+              const submitBtn = e.target.querySelector("button");
+              if (submitBtn) submitBtn.disabled = true;
+              const res = await fetch("/api/newsletter", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ email, source: "footer" }),
+              });
+              const data = await res.json();
+              alert(data.message || "Thank you for joining!");
+              if (emailInput) emailInput.value = "";
+              if (submitBtn) submitBtn.disabled = false;
+            }}
           >
             <input
               type="email"
@@ -63,6 +79,7 @@ export default function Footer() {
               placeholder="your@email.com"
               aria-label="Email for newsletter"
               id="footer-join-email"
+              required
             />
             <button type="submit" className="btn btn-primary btn-sm" id="footer-join-submit">
               Join

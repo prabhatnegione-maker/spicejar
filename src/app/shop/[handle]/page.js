@@ -25,7 +25,19 @@ export default function ProductDetailPage() {
   const [selectedVariant, setSelectedVariant] = useState(
     product?.variants[1] || product?.variants[0]
   );
-  const [openAccordion, setOpenAccordion] = useState(null);
+  // Track product view in database
+  useEffect(() => {
+    if (product) {
+      fetch("/api/analytics/product-view", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          productHandle: product.handle,
+          productName: product.name,
+        }),
+      }).catch((err) => console.error("Product view track error:", err));
+    }
+  }, [product]);
 
   // Reset variant selection when packaging type changes
   const handlePackChange = (pack) => {

@@ -25,9 +25,17 @@ export default function SearchModal({ isOpen, onClose }) {
   const handleSubmit = (e) => {
     e.preventDefault();
     if (query.trim()) {
+      // Log search query in background
+      fetch("/api/analytics/search", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          query: query.trim(),
+          resultsCount: searchResults.length,
+        }),
+      }).catch((err) => console.error("Search tracking error:", err));
+
       onClose();
-      // Right now the shop page doesn't have a search parameter handler, 
-      // but this sets up the URL correctly for future implementation!
       router.push(`/shop?q=${encodeURIComponent(query.trim())}`);
     }
   };
