@@ -600,12 +600,21 @@
   transform: scale(1.08);
 }
 
-/* Featured card spans two columns on the first row */
 .hero-product-featured {
   grid-column: 1 / -1;
   aspect-ratio: 16 / 9;
   border-radius: 20px;
   border: 2px solid rgba(245, 166, 35, 0.4);
+  background: radial-gradient(circle at center, rgba(255, 255, 255, 0.9), rgba(248, 246, 240, 0.8));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.hero-product-featured img {
+  object-fit: contain;
+  padding: 0.75rem 1rem 2.2rem 1rem;
+  filter: drop-shadow(0 6px 12px rgba(44, 24, 16, 0.12));
 }
 
 .hero-product-sm-1,
